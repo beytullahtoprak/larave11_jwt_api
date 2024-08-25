@@ -1,6 +1,6 @@
 # larave11_jwt_api
 Laravel 11 JWT API Authentication
-#Get Start
+# Get Start
 
 cp .env.example .env
 
@@ -10,15 +10,15 @@ php artisan jwt:secret
 
 php artisan migrate
 
-#Register
+# Register
 name,
 email,
 password,
 password_confirmation
 
-#Login
+# Login
 email,
 password
 
-#Logout
+# Logout
 token
