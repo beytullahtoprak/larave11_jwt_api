@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Api\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ResetPasswordRequest extends FormRequest
 {
@@ -26,5 +28,16 @@ class ResetPasswordRequest extends FormRequest
             'password' => 'required|string|min:6|confirmed',
             'password_confirmation' => 'required|string|min:6'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $errors = $validator->errors();
+
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Validation failed',
+            'errors' => $errors->messages() // Hata mesajlarını döndürür
+        ], 422));
     }
 }

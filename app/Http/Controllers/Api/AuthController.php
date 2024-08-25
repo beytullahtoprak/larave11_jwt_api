@@ -10,7 +10,7 @@ use App\Http\Requests\Api\Auth\ResetPasswordRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 
 class AuthController extends BaseController
 {
@@ -37,7 +37,8 @@ class AuthController extends BaseController
             if (!$token = JWTAuth::attempt($request->only('email', 'password'))) {
                 return $this->sendError('Invalid credentials', [], 401);
             }
-            return $this->sendSuccess(['token' => $token], 'Login successful');
+            $user = JWTAuth::user();
+            return $this->sendSuccess(['token' => $token, 'user' => $user], 'Login successful');
         } catch (\Exception $e) {
             return $this->sendError('Could not create token', [$e->getMessage()], 500);
         }
